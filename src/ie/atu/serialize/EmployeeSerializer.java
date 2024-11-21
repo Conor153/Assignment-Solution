@@ -78,7 +78,9 @@ public class EmployeeSerializer {
 			employees.add(employee);
 		}
 		else 
-		{}
+		{
+			Employee.setNextEmployeeNumber();
+		}
 			//Must reduce the static value
 	}
 
@@ -156,11 +158,38 @@ public class EmployeeSerializer {
 	// i.e. it will write employees to a file called employees.bin
 	public void serializeEmployees() {
 		// TODO - Write the code for serializeEmployees()
-		JOptionPane.showMessageDialog(null, "You must write the code for the serializeEmployees() method.",
-				"NOT IMPLEMENTED", JOptionPane.INFORMATION_MESSAGE);
-		//Finally blocks!!!!!!
-//		finally {
-//			.close for the file
+//		JOptionPane.showMessageDialog(null, "You must write the code for the serializeEmployees() method.",
+//				"NOT IMPLEMENTED", JOptionPane.INFORMATION_MESSAGE);
+
+		FileOutputStream fs;
+		ObjectOutputStream os;
+		try 
+		{
+			fs = new FileOutputStream(employeesFile);
+					
+			os = new ObjectOutputStream(fs);
+			
+			os.writeObject(employees);
+			
+		}
+		catch(FileNotFoundException e)
+		{
+			System.out.println("Cannot create file.");
+		}
+		catch(IOException e)
+		{
+			System.out.println("Cannot write to "+ employeesFile.getName()+".");
+		}
+//		finally 
+//		{
+//			try
+//			{
+//				os.close();
+//			}
+//			catch(IOException e)
+//			{
+//				System.out.println("Cannot close file: "+ employeesFile.getName()+".");
+//			}
 //		}
 	}
 	

@@ -167,6 +167,25 @@ public class Employee extends Person implements Payable, Serializable {
 		} else // CANCEL_OPTION
 			return false;
 	}
+	
+	//(iii) 
+	//setNextEmployeeNumber decreases the value of employeeNoNext by 1
+	//In the event of the user pressing cancel the employeeNoNext 
+	//will have increased and skip over an employeeNumber
+	//e.g Emp1 given 10000 
+	//Cancel was pressed after add was clicked leaving 
+	//10001 unused and skipped
+	//Emp2 would get 10002
+	
+	public static void setNextEmployeeNumber()
+	{
+		--employeeNoNext;//Reduce employeeNoNext by 1
+		
+	}
+	
+	
+	
+	
 
 	// Calculate the pay for the employee
 	// Divide salary by 12
