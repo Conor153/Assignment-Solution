@@ -169,17 +169,23 @@ public class Employee extends Person implements Payable, Serializable {
 	}
 	
 	//(iii) 
-	//setNextEmployeeNumber decreases the value of employeeNoNext by 1
+	//reduceNextEmployeeNumber decreases the value of employeeNoNext by 1
 	//In the event of the user pressing cancel the employeeNoNext 
 	//will have increased and skip over an employeeNumber
 	//e.g Emp1 given 10000 
-	//Cancel was pressed after add was clicked leaving 
-	//10001 unused and skipped
+	//Cancel was pressed after trying to add an employee
+	//10001 gets unused and skipped
 	//Emp2 would get 10002
 	
 	public static void setNextEmployeeNumber()
 	{
 		--employeeNoNext;//Reduce employeeNoNext by 1
+		
+	}
+	
+	public static void setNextEmployeeNumber(int lastEmployeeNumber)
+	{
+		employeeNoNext = lastEmployeeNumber;//Reduce employeeNoNext by 1
 		
 	}
 	

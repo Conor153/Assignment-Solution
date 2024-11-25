@@ -26,6 +26,16 @@ public class EmployeeSerializer {
 
 	private final String FILENAME = "employees.bin";
 	private File employeesFile;
+	
+	//(iv) and (v) Scanner to allow users to
+	//enter an employee number to search for
+	//and either view or delete the record
+	Scanner kb= new Scanner(System.in);
+	
+	//(iv) and (v) requires to enter an employee number to search for
+	// SearchEmpNumber is a global variable so it can be used in both
+	// methods
+	private int searchEmpNumber;
 
 	// Default Constructor
 	public EmployeeSerializer() {
@@ -42,7 +52,8 @@ public class EmployeeSerializer {
 		// an IOException can be thrown
 		// A try catch is used to catch the IOException
 		// in the event an exception is thrown
-		try {
+		try 
+		{
 			// Create a new File called employees.bin
 			employeesFile.createNewFile();
 		}
@@ -65,23 +76,21 @@ public class EmployeeSerializer {
 	public void add() {
 		// Create an Employee object
 		Employee employee = new Employee();
-		// TODO - Update add() so it checks if Cancel was clicked when reading Employee
-
 		// Read its details
 		// And add it to the employees ArrayList
 		// Only if
 		// (iii) If the user selects cancel when adding an employee
 		// A boolean value of false is returned
 		// However when OK is selected a value of true is returned
-		// Only if the user select Ok do we want to add to the arraylist
-		if (employee.read() == true) {
+		// Only if the user select Ok do we want to add 
+		// the employee to the arraylist
+		if (employee.read() == true) 
 			employees.add(employee);
-		}
+		//If the user has cancelled the add
+		//We reduce the static variable employeeNoNext
+		//This is to allow that number to be used for the next employee
 		else 
-		{
 			Employee.setNextEmployeeNumber();
-		}
-			//Must reduce the static value
 	}
 
 	///////////////////////////////////////////////////////
@@ -119,10 +128,16 @@ public class EmployeeSerializer {
 	////////////////////////////////////////////////////////////////
 	public Employee view() {
 		// TODO - Write the code for view()
-		JOptionPane.showMessageDialog(null, "view() method must be coded!", "NOT IMPLEMENTED",
-				JOptionPane.INFORMATION_MESSAGE);
-			//Converting number into string requires try catch block
+		System.out.println("EnternEmployee number to search:");
+		searchEmpNumber = kb.nextInt();
+		kb.close();
+		for(Employee e: employees)
+		{
+			if(e.getEmployeeNo() == searchEmpNumber)
+				return e;
+		}
 		return null;
+
 	}
 
 	///////////////////////////////////////////////////////////////////
@@ -132,10 +147,19 @@ public class EmployeeSerializer {
 	// Purpose : Deletes the required Employee record from employees //
 	///////////////////////////////////////////////////////////////////
 	public void delete() {
-		// TODO - Write the code for delete()
-		JOptionPane.showMessageDialog(null, "delete() method must be coded!", "NOT IMPLEMENTED",
-				JOptionPane.INFORMATION_MESSAGE);
-		
+		System.out.println("EnternEmployee number to search:");
+		searchEmpNumber = kb.nextInt();
+		kb.close();
+		for(Employee e: employees)
+		{
+			if(e.getEmployeeNo() == searchEmpNumber)
+			{
+				 employees.remove(e);
+				 break;
+			}
+			JOptionPane.showMessageDialog(null, "Employee Removed", "They are gone",
+					JOptionPane.INFORMATION_MESSAGE);
+		}
 //		If you delete an Employee you need not re-allocate
 //		the number. 
 		
@@ -149,7 +173,11 @@ public class EmployeeSerializer {
 	// Purpose : Edits the required Employee record in employees //
 	///////////////////////////////////////////////////////////////
 	public void edit() {
-		// TODO - Write the code for edit()
+		// Create an Employee object
+				Employee employee = new Employee();
+				// Find position of employee to edit 
+				if (employee.read() == true) 
+					employees.set(employee, position );
 		JOptionPane.showMessageDialog(null, "edit() method must be coded!", "NOT IMPLEMENTED",
 				JOptionPane.INFORMATION_MESSAGE);
 	}
@@ -170,6 +198,7 @@ public class EmployeeSerializer {
 			os = new ObjectOutputStream(fs);
 			
 			os.writeObject(employees);
+			os.close();
 			
 		}
 		catch(FileNotFoundException e)
@@ -182,14 +211,7 @@ public class EmployeeSerializer {
 		}
 //		finally 
 //		{
-//			try
-//			{
-//				os.close();
-//			}
-//			catch(IOException e)
-//			{
-//				System.out.println("Cannot close file: "+ employeesFile.getName()+".");
-//			}
+//			os.close();
 //		}
 	}
 	
@@ -216,9 +238,6 @@ public class EmployeeSerializer {
 		} catch (Exception e) {
 			System.out.println("Cannot read from " + employeesFile.getName() + ".");
 		}
-		//Get the last employee in arraylist.
-		//Get their empNo
-		//Assign it to the static variable +1
-		//Employee.setnextNumber(); create this static method
+		Employee.setNextEmployeeNumber(employees.get(employees.size()-1).getEmployeeNo()+1);
 	}
 }
