@@ -66,22 +66,26 @@ public class EmployeeSerializer {
 	// Purpose : Reads one Employee record from the user //
 	// and adds it to the ArrayList called employees //
 	/////////////////////////////////////////////////////////////
+	//Assignment 2
+	//(iii)
 	public void add() {
 		// Create an Employee object
 		Employee employee = new Employee();
-		// Read its details
-		// And add it to the employees ArrayList
-		// Only if
-		// (iii) If the user selects cancel when adding an employee
-		// A boolean value of false is returned
-		// However when OK is selected a value of true is returned
-		// Only if the user select Ok do we want to add 
-		// the employee to the ArrayList
+		// The Employee read() gets called to insert
+		// values into the employee instance variables
+		//The read method returns a boolean value
+		//This is to check if the user has pressed ok or cancel
+		//in the read JOPtion pane
+		//If the user has pressed ok then it will be added
+		//To the employees ArrayList
 		if (employee.read() == true) 
 			employees.add(employee);
-		//If the user has cancelled the add
-		//We reduce the static variable employeeNoNext
-		//This is to allow that number to be used for the next employee
+		//If the user has selected cancel a value of false has been returned
+		//The employee has been created and the static variable
+		//employeeNoNext has been incremented however no employee has been
+		//added to the ArrayList.
+		//setNextEmployeeNumber is called to reset the
+		//employeeNoNext back to the number that was given to employee
 		else 
 			Employee.setNextEmployeeNumber(employee.getEmployeeNo());
 	}
@@ -117,38 +121,46 @@ public class EmployeeSerializer {
 	// Purpose : Displays the required Employee record on screen //
 	// : And returns it, or null if not found //
 	////////////////////////////////////////////////////////////////
+	
+	//Assignment 2
+	//(v)
+	//view() is used to view a particular employee that may be
+	//inside the employees ArrayList.
+	//Users will be displayed a JOPtion Pane where they
+	//Enter an Employee Number and a scan through the employees ArrayList
+	//Will be conducted to find the employee with that number
 	public Employee view(){
-		//Declare a String called employeeToViewAsString
-		//this is to read the netered number from the JOption plane
-		String employeeToViewAsString;
-		//Declare an int called employeeToView
-		//This variable is parsed the string which takes in the number
 		
+		//Declare a String employeeToViewAsString which
+		//will hold the employee number entered by the user
+		String employeeToViewAsString;
+		//Declare and initialise an int employeeToView
+		//which will hold employeeToViewAsString when it is parsed to
+		// an integer
 		int employeeToView = 0;
 		//Declare a boolean called goodInput
 		//to check if the input is valid
 		boolean goodInput = false;
-		//Do while to allow user to re-enter
-		//The value should they input an invalid value into
-		// the string
+		//Do while will allow the user to re-enter the employee number
+		//should they enter an invalid value
 		do
 		{
 			try
-			{	//Display JOption plane to get user to enter an Employee Number
+			{	//Display JOption pane to get user to enter an Employee Number
 				employeeToViewAsString=JOptionPane.showInputDialog("Enter Employee Number to view");	
 				//Parse the string into an integer
-				//Can throw an exception if value is not
+				//It can throw an exception if value is not
 				//of type int
 				employeeToView=Integer.parseInt(employeeToViewAsString); 
 				//If exception has not been thrown
 				//Assign true to the goodInput
 				goodInput = true;
 			}
-			//Catch a number format exception which can
-			//be thrown if string cannot be converted to an int
+			//Catch NumberFormatException which can
+			//be thrown if the string cannot be converted to an int
 			catch(NumberFormatException e)
 			{
-				//An Error Joption plane is displayed
+				//An Error Joption pane is displayed
 				//Inforing user that number entered was invalid
 				JOptionPane.showMessageDialog(null, "Please enter a valid number", "Incorrect Value Entered",
 						JOptionPane.ERROR_MESSAGE);
@@ -162,15 +174,15 @@ public class EmployeeSerializer {
         for(Employee tmpEmployee:employees) {
         	//If the employee number is the same as the searched employee number
  		   if(tmpEmployee.getEmployeeNo() == employeeToView){
- 			   //Display the employee in a JOPtion plane
+ 			   //Display the employee in a JOPtion pane
  			   JOptionPane.showMessageDialog(null, tmpEmployee);	
- 			   //Return the Employee for for edit() and delete()
+ 			   //Return the Employee for edit() and delete() methods
  			   return tmpEmployee;
  		   }
        }
-        //If the employee with the entered employee number
-        //has not been found display an information message
-        //this is to alert the user that no employee has this eployee number
+        //If no employee has the entered employee number
+        //has not been found an information message will be displayed
+        //this is to alert the user that no employee has this employee number
         JOptionPane.showMessageDialog(null, "Employee Not Found", "View Employee",
 				JOptionPane.INFORMATION_MESSAGE);
         //return null to any method that calls view().
@@ -183,11 +195,14 @@ public class EmployeeSerializer {
 	// Parameters : None //
 	// Purpose : Deletes the required Employee record from employees //
 	///////////////////////////////////////////////////////////////////
+	//delete() is used to remove an employee from the ArrayList
+	//It calls the view() method to return an employee to delete
+	//It is then removed from the ArrayList by calling the remove method
 	public void delete() {	
 		// Call view() to find, display, & return the employee to delete
 		Employee tempEmployee = view();
 
-		// If the tempBook != null, i.e. the employee has been found
+		// If the tempEmployee != null, i.e. the employee has been found
 	    if(tempEmployee != null)
 		   // ...remove it from employees
 	       employees.remove(tempEmployee);		
@@ -199,45 +214,69 @@ public class EmployeeSerializer {
 	// Parameters : None //
 	// Purpose : Edits the required Employee record in employees //
 	///////////////////////////////////////////////////////////////
+	
+	//(vi)
+	//The edit method allows the user to edit an employee in the Employees ArrayList
+	//It calls the the view() method to find the employee.
+	//An employee if found will be returned and stored in a
+	//temporary employee object.
+	//The read method will be called on this object allowing 
+	//the user to edit its properties
 	public void edit() {	
 		// Call view() to find, display, & return the employee to edit
-		Employee tempBook = view();
+		Employee tempEmployee = view();
 
-		// If the tempBook != null, i.e. the employee has been found
-	    if(tempBook != null){
+		// If the tempEmployee != null, i.e. the employee has been found
+	    if(tempEmployee != null){
 		   // get it's index
-		   int index=employees.indexOf(tempBook);
-		   // read in a new employee and...
-		   tempBook.read();
-		   // reset the object in employees
-		   employees.set(index, tempBook);
+		   int index=employees.indexOf(tempEmployee);
+		   // read in the new values to be assigned to the employee
+		   tempEmployee.read();
+		   // overwrite the object in the index where it was placed
+		   employees.set(index, tempEmployee);
 	    }
 	}
 	
-	// This method will serialize the employees ArrayList when called,
-	// i.e. it will write employees to a file called employees.bin
+	// Assignment
+	//(iv)
+	// When exit is pressed on the JOption Pane
+	// The ArrayList must be serialised into a file called
+	// employees.bin
 	public void serializeEmployees() {
+		//Declare FileOutput Stream which is used to 
+		//write bytes of data to the employees.bin file
 		FileOutputStream fs;
+		
+		//Declare ObjectOutputStream which is used to 
+		//convert the ArrayList into bites so the 
+		//FileOutputStream can stream it into the employees.bin file
 		ObjectOutputStream os;
 		try 
 		{
+			//Initialise a FileOutputStream using the employees.bin file
 			fs = new FileOutputStream(employeesFile);
 					
 			os = new ObjectOutputStream(fs);
 			
+			//Write the employees ArrayList to the file
 			os.writeObject(employees);
+			//Close the file when writing to it has been completed
 			os.close();
 			
 		}
+		//Can throw a FileNotFoundException if the file cannot be found
 		catch(FileNotFoundException e)
 		{
-			System.out.println("Cannot create file.");
+			System.out.println("Cannot find or access "+employeesFile.getName()+" .");
 		}
+		//Can throw an IOException if the ArrayList cannot be written
+		//To the file employees.bin
 		catch(IOException e)
 		{
 			System.out.println("Cannot write to "+ employeesFile.getName()+".");
 		}
 	}
+	
 	// This method will deserialize the Employees ArrayList when called,
 	// i.e. it will restore the employees ArrayList from the file employees.bin
 	public void deserializeEmployees() {
@@ -249,6 +288,16 @@ public class EmployeeSerializer {
 			is = new ObjectInputStream(fileStream);
 
 			employees = (ArrayList<Employee>) is.readObject();
+			//Assignment 2
+			//(viii)
+			//When we deserialize the file and recieve our previously
+			//saved employees the next employee entered should have
+			//An employee number which comes after the last employee
+			// i.e last employee has EmployeeNo of 2 next one should be 3
+			//Call the setNextEmployeeNumber which sets the static employeeNoNext variable
+			//to 1 greater than the last employee number
+			//We get the EmployeeNo of the last employee in the ArrayList and add 1 to it.
+			//This is the EmployeeNo of the next employee to be added
 			Employee.setNextEmployeeNumber(employees.get(employees.size()-1).getEmployeeNo()+1);
 
 			is.close();
