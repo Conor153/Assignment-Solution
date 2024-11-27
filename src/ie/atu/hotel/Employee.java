@@ -18,11 +18,13 @@ import javax.swing.JTextField;
 
 //Inheritance Employee IS-A Person
 //Interface Employee CAN- DO Payable
-//Assigment 2
+//Interface Employee CAN- DO Serializable
+//Assignment 2
 //(i) Make Employee class Serializable
-//This is achieved by implementing the Serializable interface as seen in
-public class Employee extends Person implements Payable, Serializable {
-	// Employee has name & phoneNumber from Person
+// This is achieved by implementing the Serializable interface
+// Employee implements Serializable from Person through inheritance
+public class Employee extends Person implements Payable {
+//  Employee has name & phoneNumber from Person
 //	private Date dateOfBirth;//Employee HAS-A DOB
 //	private Date startDate;//Employee HAS-A Start Date
 	private double salary;// Employee has a salary
@@ -134,10 +136,20 @@ public class Employee extends Person implements Payable, Serializable {
 //		kb.close();
 //	}
 
+	//Assignment (iii)
 	// read() method that uses JOption Plane
 	// Overrides the read() method of super class Person
 	@Override
 	public boolean read() {
+		//Create TextFields for the following values
+		//Employee Number, First Name, Last Name
+		//Phone Number and Salary
+		//Create a JComboBox to allow the user to select
+		//A title option
+		
+		//If the user was to edit an employee the entry fields 
+		//will contain the data of the employee they wish to edit
+		//this is done by using setText() and setSelectedItem();
 		JTextField txtEmployeeNo = new JTextField();
 		txtEmployeeNo.setText("" + this.getEmployeeNo());
 		JComboBox<String> titleBox = new JComboBox<String>();
@@ -145,10 +157,15 @@ public class Employee extends Person implements Payable, Serializable {
 		titleBox.addItem("Ms");
 		titleBox.addItem("Mrs");
 		titleBox.addItem("Miss");
+		titleBox.setSelectedItem(this.name.getTitle());
 		JTextField txtFirstName = new JTextField();
+		txtFirstName.setText(this.name.getFirstName());;
 		JTextField txtLastName = new JTextField();
+		txtLastName.setText(this.name.getLastName());
 		JTextField txtPhoneNumber = new JTextField();
+		txtPhoneNumber.setText(this.phoneNumber);
 		JTextField txtSalary = new JTextField();
+		txtSalary.setText(""+this.getSalary());
 
 		Object[] message = { "Employee Number", txtEmployeeNo, "Title", titleBox, "First Name:",
 				txtFirstName, "Last Name", txtLastName, "Phone Number:", txtPhoneNumber, "Salary:", txtSalary };
@@ -158,35 +175,34 @@ public class Employee extends Person implements Payable, Serializable {
 		int option = JOptionPane.showConfirmDialog(dialog, message, "ENTER EMPLOYEE DETAILS",
 				JOptionPane.OK_CANCEL_OPTION);
 		if (option == JOptionPane.OK_OPTION) {
+			//If the user selects OK
+			//the values are assigned to the Employees instance variables
 			this.name.setTitle((String) titleBox.getSelectedItem());
 			this.name.setFirstName(txtFirstName.getText());
 			this.name.setLastName(txtLastName.getText());
 			this.phoneNumber = txtPhoneNumber.getText();
 			this.salary=Double.valueOf(txtSalary.getText());
+			//A value of true is returned this is to manage
+			//the static instance variable employeeNoNext
 			return true;
 		} else // CANCEL_OPTION
+			//If we press cancel we return false
+			//to correctly manage the static instance variable employeeNoNext
 			return false;
 	}
 	
-	//(iii) 
-	//reduceNextEmployeeNumber decreases the value of employeeNoNext by 1
-	//In the event of the user pressing cancel the employeeNoNext 
-	//will have increased and skip over an employeeNumber
-	//e.g Emp1 given 10000 
-	//Cancel was pressed after trying to add an employee
-	//10001 gets unused and skipped
-	//Emp2 would get 10002
+	//Assignment (iii) and (vi)
+	//setNextEmployeeNumber()is used to change the static
+	// variable employeeNoNext
 	
-	public static void setNextEmployeeNumber()
-	{
-		--employeeNoNext;//Reduce employeeNoNext by 1
-		
-	}
+	//When called in add we want to reduce the value by 1
+	//This is to allow 
 	
-	public static void setNextEmployeeNumber(int lastEmployeeNumber)
+	//Deserialise 
+	public static void setNextEmployeeNumber(int changeStaticEmployeeNumber)
 	{
-		employeeNoNext = lastEmployeeNumber;//Reduce employeeNoNext by 1
-		
+		//Set employeeNoNext to 1 greater than the last Employee Number
+		employeeNoNext = changeStaticEmployeeNumber;
 	}
 	
 	

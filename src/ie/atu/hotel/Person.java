@@ -12,7 +12,13 @@ import java.util.Scanner;
 
 //Person is abstract
 //This means it can only be used to inherit from
-// It cannot be used to create objects from class Person
+//It cannot be used to create objects from class Person
+//Interface Employee CAN- DO Serializable
+
+//Assignment 2
+//(i) Make Employee class Serializable
+//This is achieved by implementing the Serializable interface
+//Because Employee is a Person it must implement Serializable
 public abstract class Person implements Serializable {
 	protected Name name;
 	protected String phoneNumber;
