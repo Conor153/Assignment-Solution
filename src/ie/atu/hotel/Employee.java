@@ -196,9 +196,12 @@ public class Employee extends Person implements Payable {
 	// variable employeeNoNext
 	
 	//When called in add we want to reduce the value by 1
-	//This is to allow 
+	//This is to allow the user to cancel adding an employee
+	//and re use the next employee number
 	
-	//Deserialise 
+	//When called in deserialise we want to change the employeeNoNext
+	//to one greater than the last employee number of the last employee
+	//in the ArrayList 
 	public static void setNextEmployeeNumber(int changeStaticEmployeeNumber)
 	{
 		//Set employeeNoNext to 1 greater than the last Employee Number

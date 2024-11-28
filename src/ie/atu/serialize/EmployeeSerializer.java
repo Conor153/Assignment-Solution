@@ -149,7 +149,7 @@ public class EmployeeSerializer {
 			{	//Display JOption pane to get user to enter an Employee Number
 				employeeToViewAsString=JOptionPane.showInputDialog("Enter Employee Number to view");	
 				//Parse the string into an integer
-				//It can throw an exception if value is not
+				//It can throw a NumberFormatException if value is not
 				//of type int
 				employeeToView=Integer.parseInt(employeeToViewAsString); 
 				//If exception has not been thrown
@@ -165,7 +165,7 @@ public class EmployeeSerializer {
 				JOptionPane.showMessageDialog(null, "Please enter a valid number", "Incorrect Value Entered",
 						JOptionPane.ERROR_MESSAGE);
 			}	
-		//Continue looping until goodInput is true
+		//Continue looping until goodInput is true 
 		}while(!goodInput);
 		//For each employee in employees
 		//Loop around checking to see if 
